@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VerticalLayout xmlns="urn:import:com.vaadin.ui" xmlns:l="urn:vaadin:parent" margin="true" height="100%" width="100%">
+	<Panel caption="Chat" height="100%" width="100%" l:expandRatio="1">
+		<VerticalLayout margin="true" width="" height="" id="chatLog"/>
+	</Panel>
+	<TextField id="chatMessage" immediate="true" width="100%" inputPrompt="Write your message and press enter" />
+</VerticalLayout>
