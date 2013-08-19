@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE ivy-module [
-	<!ENTITY vaadin.version "7.1.6">
+	<!ENTITY vaadin.version "7.1.10">
 ]>
 <ivy-module version="2.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -12,20 +12,21 @@
 		<!-- A configuration only needed when compiling the widget set. Should 
 			not be deployed to the server -->
 		<conf name="widgetset-compile" />
+		<!-- A configuration used in compilation of server side classes only. Should 
+			be deployed to the server -->
+		<conf name="nodeploy" />
 	</configurations>
-	<dependencies>
+	<dependencies defaultconf="default" defaultconfmapping="default -> default">
+		<!-- Servlet 3.0 API -->
+		<dependency org="javax.servlet" name="javax.servlet-api"
+			rev="3.0.1" conf="nodeploy->default" />
+
 		<!-- The core server part of Vaadin -->
-
-		<dependency org="org.vaadin.addons" name="clara" rev="1.0.0-beta3"
-			conf="default->default" />
-		<dependency org="com.vaadin" name="vaadin-server" rev="&vaadin.version;"
-			conf="default->default" changing="true" />
-		<dependency org="com.vaadin" name="vaadin-push" rev="&vaadin.version;"
-			conf="default->default" changing="true" />
-
+		<dependency org="org.vaadin.addons" name="clara" rev="1.0.0-beta3" />
+		<dependency org="com.vaadin" name="vaadin-server" rev="&vaadin.version;" />
+		<dependency org="com.vaadin" name="vaadin-push" rev="&vaadin.version;" />
 		<!-- Vaadin themes -->
-		<dependency org="com.vaadin" name="vaadin-themes" rev="&vaadin.version;"
-			changing="true" />
+		<dependency org="com.vaadin" name="vaadin-themes" rev="&vaadin.version;" />
 
 		<!-- Precompiled DefaultWidgetSet -->
 		<dependency org="com.vaadin" name="vaadin-client-compiled"
@@ -36,7 +37,7 @@
 
 		<!-- Compiler for custom widget sets. Should not be deployed -->
 		<dependency org="com.vaadin" name="vaadin-client-compiler"
-			rev="&vaadin.version;" conf="widgetset-compile->default" changing="true" />
+			rev="&vaadin.version;" conf="widgetset-compile->default" />
 		<!-- Java EE 6 API. Must be last to be overridden by tomee for the test 
 			phase -->
 		<!-- <dependency org="javax" name="javaee-api" rev="6.0" -->
