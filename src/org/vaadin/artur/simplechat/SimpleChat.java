@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import javax.servlet.annotation.WebServlet;
 
+import com.vaadin.annotations.Push;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
@@ -17,6 +18,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+@Push
 public class SimpleChat extends UI {
 
     private VerticalLayout chatLog;
