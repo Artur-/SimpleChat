@@ -1,18 +1,18 @@
 package org.vaadin.artur.simplechat;
 
-import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
+import org.vaadin.artur.simplechat.MessageListener.MessageEvent;
 
 import com.vaadin.event.EventRouter;
 
-public class StaticMessager implements Messager {
+public class Messenger {
 
-    private static StaticMessager instance = new StaticMessager();
+    private static Messenger instance = new Messenger();
 
     private EventRouter router = new EventRouter();
-    private Lock lock = new ReentrantLock();
+    private ReentrantLock lock = new ReentrantLock();
 
-    @Override
     public void sendMessage(String message) {
         lock.lock();
         try {
@@ -22,7 +22,6 @@ public class StaticMessager implements Messager {
         }
     }
 
-    @Override
     public void addMessageListener(MessageListener messageListener) {
         lock.lock();
         try {
@@ -31,9 +30,9 @@ public class StaticMessager implements Messager {
         } finally {
             lock.unlock();
         }
+
     }
 
-    @Override
     public void removeMessageListener(MessageListener messageListener) {
         lock.lock();
         try {
@@ -42,9 +41,10 @@ public class StaticMessager implements Messager {
         } finally {
             lock.unlock();
         }
+
     }
 
-    public static StaticMessager get() {
+    public static Messenger get() {
         return instance;
     }
 }

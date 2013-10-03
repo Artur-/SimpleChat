@@ -2,13 +2,15 @@ package org.vaadin.artur.simplechat;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Locale;
 
-import org.vaadin.artur.simplechat.Messager.MessageEvent;
-import org.vaadin.artur.simplechat.Messager.MessageListener;
+import javax.servlet.annotation.WebServlet;
 
+import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
@@ -20,10 +22,17 @@ public class SimpleChat extends UI {
     private VerticalLayout chatLog;
     private TextField chatMessage;
 
+    @WebServlet(value = "/*", asyncSupported = true)
+    @VaadinServletConfiguration(productionMode = false, ui = SimpleChat.class)
+    public static class Servlet extends VaadinServlet {
+
+    }
+
     @Override
     protected void init(VaadinRequest request) {
         createUI();
         setupLogic();
+        setLocale(Locale.ENGLISH);
     }
 
     private void createUI() {
@@ -50,25 +59,24 @@ public class SimpleChat extends UI {
     }
 
     private void setupLogic() {
-        final Messager messager = StaticMessager.get();
+        final Messenger messenger = Messenger.get();
 
         chatMessage.addValueChangeListener(new ValueChangeListener() {
             @Override
             public void valueChange(ValueChangeEvent event) {
                 TextField field = (TextField) event.getProperty();
                 if (!"".equals(field.getValue())) {
-                    messager.sendMessage(field.getValue());
+                    messenger.sendMessage(field.getValue());
                     field.setValue("");
                 }
             }
         });
 
-        messager.addMessageListener(new MessageListener() {
-
+        messenger.addMessageListener(new MessageListener() {
             @Override
             public void messageReceived(final MessageEvent event) {
 
-                runSafely(new Runnable() {
+                access(new Runnable() {
                     @Override
                     public void run() {
                         DateFormat df = DateFormat

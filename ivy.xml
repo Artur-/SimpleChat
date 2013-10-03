@@ -19,20 +19,21 @@
 		<dependency org="org.vaadin.addons" name="clara" rev="1.0.0-beta3"
 			conf="default->default" />
 		<dependency org="com.vaadin" name="vaadin-server" rev="&vaadin.version;"
-			conf="default->default" />
+			conf="default->default" changing="true" />
 		<dependency org="com.vaadin" name="vaadin-push" rev="&vaadin.version;"
-			conf="default->default" />
+			conf="default->default" changing="true" />
 
 		<!-- Vaadin themes -->
-		<dependency org="com.vaadin" name="vaadin-themes" rev="&vaadin.version;" />
+		<dependency org="com.vaadin" name="vaadin-themes" rev="&vaadin.version;"
+			changing="true" />
 
 		<!-- Precompiled DefaultWidgetSet -->
 		<dependency org="com.vaadin" name="vaadin-client-compiled"
-			rev="&vaadin.version;" />
+			rev="&vaadin.version;" changing="true" />
 
 		<!-- Compiler for custom widget sets. Should not be deployed -->
 		<dependency org="com.vaadin" name="vaadin-client-compiler"
-			rev="&vaadin.version;" conf="widgetset-compile->default" />
+			rev="&vaadin.version;" conf="widgetset-compile->default" changing="true" />
 		<!-- Java EE 6 API. Must be last to be overridden by tomee for the test 
 			phase -->
 		<!-- <dependency org="javax" name="javaee-api" rev="6.0" -->
