@@ -4,93 +4,84 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import javax.servlet.annotation.WebServlet;
+import org.vaadin.artur.simplechat.Broadcaster.MessageListener;
 
-import com.vaadin.annotations.Push;
-import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
+import com.vaadin.ui.UIDetachedException;
 import com.vaadin.ui.VerticalLayout;
 
-@Push
-public class SimpleChat extends UI {
+public class SimpleChat extends VerticalLayout {
 
-    private VerticalLayout chatLog;
-    private TextField chatMessage;
+	private Panel chatPanel;
+	private VerticalLayout chatLog;
+	private TextField chatMessage;
 
-    @WebServlet(value = "/*", asyncSupported = true)
-    @VaadinServletConfiguration(productionMode = false, ui = SimpleChat.class)
-    public static class Servlet extends VaadinServlet {
+	public SimpleChat() {
+		createUI();
+		setupLogic();
+		setLocale(Locale.ENGLISH);
+	}
 
-    }
+	private void createUI() {
+		setSizeFull();
+		setMargin(true);
 
-    @Override
-    protected void init(VaadinRequest request) {
-        createUI();
-        setupLogic();
-        setLocale(Locale.ENGLISH);
-    }
+		chatPanel = new Panel("Chat");
+		chatPanel.setSizeFull();
 
-    private void createUI() {
-        VerticalLayout main = new VerticalLayout();
-        main.setSizeFull();
-        main.setMargin(true);
+		chatLog = new VerticalLayout();
+		chatLog.setMargin(true);
+		chatLog.setWidth("100%");
+		chatLog.setHeight(null);
+		chatPanel.setContent(chatLog);
 
-        Panel chatPanel = new Panel("Chat");
-        chatPanel.setSizeFull();
-        main.addComponent(chatPanel);
-        main.setExpandRatio(chatPanel, 1);
+		chatMessage = new TextField();
+		chatMessage.setImmediate(true);
+		chatMessage.setWidth("100%");
+		chatMessage.setInputPrompt("Write your message and press enter");
 
-        chatLog = new VerticalLayout();
-        chatLog.setMargin(true);
-        chatLog.setSizeUndefined();
-        chatPanel.setContent(chatLog);
+		addComponent(chatPanel);
+		setExpandRatio(chatPanel, 1);
+		addComponent(chatMessage);
+	}
 
-        chatMessage = new TextField();
-        chatMessage.setImmediate(true);
-        chatMessage.setWidth("100%");
-        chatMessage.setInputPrompt("Write your message and press enter");
-        main.addComponent(chatMessage);
-        setContent(main);
-    }
+	private void setupLogic() {
+		chatMessage.addValueChangeListener(new ValueChangeListener() {
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				TextField field = (TextField) event.getProperty();
+				if (!"".equals(field.getValue())) {
+					Broadcaster.sendMessage(field.getValue());
+					field.setValue("");
+				}
+			}
+		});
 
-    private void setupLogic() {
-        final Messenger messenger = Messenger.get();
-
-        chatMessage.addValueChangeListener(new ValueChangeListener() {
-            @Override
-            public void valueChange(ValueChangeEvent event) {
-                TextField field = (TextField) event.getProperty();
-                if (!"".equals(field.getValue())) {
-                    messenger.sendMessage(field.getValue());
-                    field.setValue("");
-                }
-            }
-        });
-
-        messenger.addMessageListener(new MessageListener() {
-            @Override
-            public void messageReceived(final MessageEvent event) {
-
-                access(new Runnable() {
-                    @Override
-                    public void run() {
-                        DateFormat df = DateFormat
-                                .getTimeInstance(DateFormat.MEDIUM);
-                        Label l = new Label(df.format(new Date()) + ": "
-                                + event.getMessage());
-                        l.setSizeUndefined();
-                        chatLog.addComponent(l);
-                    }
-                });
-            }
-        });
-    }
+		Broadcaster.addMessageListener(new MessageListener() {
+			@Override
+			public void messageReceived(final MessageEvent event) {
+				try {
+					getUI().access(new Runnable() {
+						@Override
+						public void run() {
+							DateFormat df = DateFormat
+									.getTimeInstance(DateFormat.MEDIUM);
+							Label messageLabel = new Label(df
+									.format(new Date())
+									+ ": "
+									+ event.getMessage());
+							chatLog.addComponent(messageLabel);
+						}
+					});
+				} catch (UIDetachedException e) {
+					Broadcaster.removeMessageListener(this);
+				}
+			}
+		});
+	}
 
 }
