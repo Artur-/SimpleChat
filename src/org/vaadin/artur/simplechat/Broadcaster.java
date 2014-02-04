@@ -50,7 +50,7 @@ public class Broadcaster {
 	}
 
 	private static String getColor(SimpleChatUI source) {
-		return colors[source.getUIId() % 5];
+		return colors[source.hashCode() % colors.length];
 	}
 
 	public static void addMessageListener(MessageListener messageListener) {
