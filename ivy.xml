@@ -22,7 +22,7 @@
 			rev="3.0.1" conf="nodeploy->default" />
 
 		<!-- The core server part of Vaadin -->
-		<dependency org="org.vaadin.addons" name="clara" rev="1.0.0-beta3" />
+		<dependency org="org.vaadin.addons" name="clara" rev="1.0.0" />
 		<dependency org="com.vaadin" name="vaadin-server" rev="&vaadin.version;" />
 		<dependency org="com.vaadin" name="vaadin-push" rev="&vaadin.version;" />
 		<!-- Vaadin themes -->
