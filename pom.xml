@@ -79,6 +79,12 @@
 			<version>3.0.1</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.scribe</groupId>
+			<artifactId>scribe</artifactId>
+			<version>1.3.7</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -100,6 +106,11 @@
 				<configuration>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.vaadin</groupId>
+				<artifactId>vaadin-maven-plugin</artifactId>
+				<version>${vaadin.plugin.version}</version>
 			</plugin>
 		</plugins>
 		<pluginManagement>

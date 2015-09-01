@@ -1,5 +1,7 @@
 <v-vertical-layout margin size-full>
-	<v-panel caption="Chat" size-full :expand>
+	<v-horizontal-layout id="chatterList" spacing>
+	</v-horizontal-layout>
+	<v-panel caption="Chat" size-full :expand _id="chatPanel">
 		<v-vertical-layout margin size-auto id="chatLog"/>
 	</v-panel>
 	<v-text-field id="chatMessage" width="100%" input-prompt="Write your message and press enter" />
