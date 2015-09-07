@@ -12774,25 +12774,30 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .SimpleChat .v-image-chat-black {
-	border: 2px solid black;
+	border: 1px solid black;
 }
 
 .SimpleChat .v-image-chat-red {
-	border: 2px solid red;
+	border: 1px solid red;
 }
 
 .SimpleChat .v-image-chat-blue {
-	border: 2px solid blue;
+	border: 1px solid blue;
 }
 
 .SimpleChat .v-image-chat-green {
-	border: 2px solid green;
+	border: 1px solid green;
 }
 
 .SimpleChat .v-image-chat-magenta {
-	border: 2px solid magenta;
+	border: 1px solid magenta;
 }
 
 .SimpleChat .v-image-chat-yellow {
-	border: 2px solid yellow;
+	border: 1px solid yellow;
+}
+
+.SimpleChat #chatLog .v-image {
+	height: 24px;
+	margin-right: 5px;
 }

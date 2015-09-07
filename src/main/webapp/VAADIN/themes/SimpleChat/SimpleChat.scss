@@ -30,21 +30,25 @@
   }
   
   .v-image-chat-black {
-  	border: 2px solid black;
+  	border: 1px solid black;
   }
   .v-image-chat-red {
-  	border: 2px solid red;
+  	border: 1px solid red;
   }
   .v-image-chat-blue {
-  	border: 2px solid blue;
+  	border: 1px solid blue;
   }
   .v-image-chat-green {
-  	border: 2px solid green;
+  	border: 1px solid green;
   }
   .v-image-chat-magenta {
-  	border: 2px solid magenta;
+  	border: 1px solid magenta;
   }
   .v-image-chat-yellow {
-  	border: 2px solid yellow;
+  	border: 1px solid yellow;
+  }
+  #chatLog .v-image {
+	height: 24px;
+	margin-right: 5px;
   }
 }
