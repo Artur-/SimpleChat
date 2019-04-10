@@ -1,66 +1,55 @@
 package org.vaadin.artur.simplechat;
 
-import java.lang.reflect.Method;
-import java.util.EventObject;
-
-import org.vaadin.artur.simplechat.Broadcaster.MessageListener.MessageEvent;
-
-import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.event.EventRouter;
-import com.vaadin.util.ReflectTools;
+import com.vaadin.flow.component.ComponentEvent;
+import com.vaadin.flow.component.ComponentEventBus;
+import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.shared.Registration;
 
 public class Broadcaster {
 
 	private static Broadcaster instance = new Broadcaster();
 
-	private static String[] colors = new String[] { "red", "green", "blue",
-			"magenta", "black" };
+	private static String[] colors = new String[] { "red", "green", "blue", "magenta", "black" };
 
-	private EventRouter router = new EventRouter();
+	private ComponentEventBus router = new ComponentEventBus(new Div());
 
-	public interface MessageListener {
-		public static final Method METHOD = ReflectTools.findMethod(
-				MessageListener.class, "messageReceived", MessageEvent.class);
+	public static class MessageEvent extends ComponentEvent<Div> {
+		String message;
+		private String senderColor;
+		private String room;
 
-		public static class MessageEvent extends EventObject {
-			String message;
-			private String senderColor;
-
-			public MessageEvent(String senderColor, String message) {
-				super(new Object());
-				this.message = message;
-				this.senderColor = senderColor;
-			}
-
-			public String getMessage() {
-				return message;
-			}
-
-			public String getSenderColor() {
-				return senderColor;
-			}
-
+		public MessageEvent(String senderColor, String room, String message) {
+			super(new Div(), false);
+			this.message = message;
+			this.senderColor = senderColor;
+			this.room = room;
 		}
 
-		public void messageReceived(MessageEvent messageEvent);
+		public String getMessage() {
+			return message;
+		}
+
+		public String getSenderColor() {
+			return senderColor;
+		}
+
+		public String getRoom() {
+			return room;
+		}
+
 	}
 
-	public static void sendMessage(String message, SimpleChatUI source) {
-		instance.router.fireEvent(new MessageEvent(getColor(source), message));
+	public static void sendMessage(String room, String message, SimpleChatComponent source) {
+		instance.router.fireEvent(new MessageEvent(getColor(source), room, message));
 	}
 
-	private static String getColor(SimpleChatUI source) {
+	private static String getColor(SimpleChatComponent source) {
 		return colors[source.hashCode() % colors.length];
 	}
 
-	public static void addMessageListener(MessageListener messageListener) {
-		instance.router.addListener(MessageEvent.class, messageListener,
-				MessageListener.METHOD);
-	}
-
-	public static void removeMessageListener(MessageListener messageListener) {
-		instance.router.removeListener(MessageEvent.class, messageListener,
-				MessageListener.METHOD);
+	public static Registration addMessageListener(ComponentEventListener<MessageEvent> messageListener) {
+		return instance.router.addListener(MessageEvent.class, messageListener);
 	}
 
 }
