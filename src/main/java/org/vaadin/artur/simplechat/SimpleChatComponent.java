@@ -6,12 +6,10 @@ import java.util.Date;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UIDetachedException;
-import com.vaadin.flow.component.WebComponentExporter;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.component.webcomponent.WebComponentDefinition;
 import com.vaadin.flow.dom.Style;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.shared.Registration;
@@ -22,19 +20,6 @@ import org.vaadin.artur.simplechat.Broadcaster.MessageEvent;
 @Route("")
 public class SimpleChatComponent extends VerticalLayout {
     private static final String DEFAULT_ROOM = "all";
-
-    @Push
-    @Tag("simple-chat")
-    public static class Exporter implements WebComponentExporter<SimpleChatComponent> {
-
-        @Override
-        public void define(WebComponentDefinition<SimpleChatComponent> definition) {
-            definition.addProperty("room", DEFAULT_ROOM).onChange((component, value) -> {
-                component.setRoom(value);
-            });
-        }
-
-    }
 
     private VerticalLayout chatLog;
     private TextField chatMessage;

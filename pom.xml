@@ -20,7 +20,7 @@
 			<dependency>
 				<groupId>com.vaadin</groupId>
 				<artifactId>vaadin-bom</artifactId>
-				<version>14.0.0.alpha1</version>
+				<version>13.0.4</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -64,7 +64,7 @@
 				<plugin>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-maven-plugin</artifactId>
-					<version>9.4.15.v20190215</version>
+					<version>9.4.11.v20180605</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
