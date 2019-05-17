@@ -11,6 +11,7 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.webcomponent.WebComponent;
 import com.vaadin.flow.component.webcomponent.WebComponentDefinition;
 import com.vaadin.flow.dom.Style;
 import com.vaadin.flow.router.Route;
@@ -24,14 +25,17 @@ public class SimpleChatComponent extends VerticalLayout {
     private static final String DEFAULT_ROOM = "all";
 
     @Push
-    @Tag("simple-chat")
-    public static class Exporter implements WebComponentExporter<SimpleChatComponent> {
+    public static class Exporter extends WebComponentExporter<SimpleChatComponent> {
+
+        public Exporter() {
+            super("simple-chat");
+            addProperty("room", DEFAULT_ROOM).onChange((component, value) -> {
+                component.setRoom(value);
+            });        }
 
         @Override
-        public void define(WebComponentDefinition<SimpleChatComponent> definition) {
-            definition.addProperty("room", DEFAULT_ROOM).onChange((component, value) -> {
-                component.setRoom(value);
-            });
+        public void configureInstance(WebComponent<SimpleChatComponent> webComponent, SimpleChatComponent component) {
+
         }
 
     }
