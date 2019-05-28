@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.util.Date;
 
 import com.vaadin.flow.component.AttachEvent;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UIDetachedException;
 import com.vaadin.flow.component.WebComponentExporter;
@@ -63,6 +64,7 @@ public class SimpleChatComponent extends VerticalLayout {
         Style style = chatLog.getElement().getStyle();
         style.set("overflow", "auto");
         style.set("flex", "1");
+        style.set("transition", "background-color 100ms");
         chatMessage = new TextField();
         chatMessage.setWidth("100%");
         chatMessage.setPlaceholder("Write your message and press enter");
@@ -94,11 +96,18 @@ public class SimpleChatComponent extends VerticalLayout {
                 messageLabel.setClassName(labelClass);
                 chatLog.add(messageLabel);
                 getUI().get().getPage().executeJavaScript("$0.scrollTop=12938192;", chatLog);
+                flash(chatLog);
             });
         } catch (UIDetachedException e) {
             registration.remove();
         }
 
+    }
+
+    private void flash(Component c) {
+        c.getUI().get().getPage().executeJavaScript(
+                "$0.style.backgroundColor = '#bbf'; setTimeout(function() {$0.style.backgroundColor = 'white'}, 100)",
+                c.getElement());
     }
 
     public void onTextInput(TextField field) {
