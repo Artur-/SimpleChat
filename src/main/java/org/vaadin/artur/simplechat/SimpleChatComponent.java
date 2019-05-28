@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UIDetachedException;
 import com.vaadin.flow.component.WebComponentExporter;
@@ -32,7 +33,8 @@ public class SimpleChatComponent extends VerticalLayout {
             super("simple-chat");
             addProperty("room", DEFAULT_ROOM).onChange((component, value) -> {
                 component.setRoom(value);
-            });        }
+            });
+        }
 
         @Override
         public void configureInstance(WebComponent<SimpleChatComponent> webComponent, SimpleChatComponent component) {
@@ -70,8 +72,8 @@ public class SimpleChatComponent extends VerticalLayout {
         chatMessage.setPlaceholder("Write your message and press enter");
         add(header, chatLog, chatMessage);
 
-        chatMessage.addValueChangeListener(e -> {
-            this.onTextInput(e.getSource());
+        chatMessage.addKeyDownListener(Key.ENTER, e -> {
+            this.onTextInput((TextField) e.getSource());
         });
         registration = Broadcaster.addMessageListener(this::onMessage);
 
