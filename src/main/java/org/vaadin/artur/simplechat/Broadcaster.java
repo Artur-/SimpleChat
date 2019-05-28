@@ -1,5 +1,10 @@
 package org.vaadin.artur.simplechat;
 
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import com.vaadin.external.org.slf4j.LoggerFactory;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventBus;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -13,6 +18,7 @@ public class Broadcaster {
 	private static String[] colors = new String[] { "red", "green", "blue", "magenta", "black" };
 
 	private ComponentEventBus router = new ComponentEventBus(new Div());
+	private ConcurrentHashMap<String, CopyOnWriteArrayList<MessageEvent>> lastMessages = new ConcurrentHashMap<>();
 
 	public static class MessageEvent extends ComponentEvent<Div> {
 		String message;
@@ -41,7 +47,15 @@ public class Broadcaster {
 	}
 
 	public static void sendMessage(String room, String message, SimpleChatComponent source) {
-		instance.router.fireEvent(new MessageEvent(getColor(source), room, message));
+		LoggerFactory.getLogger(Broadcaster.class).info("Sending message '" + message + "' in chat for " + room);
+		MessageEvent event = new MessageEvent(getColor(source), room, message);
+		instance.router.fireEvent(event);
+		CopyOnWriteArrayList<MessageEvent> last = instance.lastMessages.computeIfAbsent(room,
+				r -> new CopyOnWriteArrayList<>());
+		last.add(event);
+		if (last.size() > 15) {
+			last.remove(0);
+		}
 	}
 
 	private static String getColor(SimpleChatComponent source) {
@@ -50,6 +64,10 @@ public class Broadcaster {
 
 	public static Registration addMessageListener(ComponentEventListener<MessageEvent> messageListener) {
 		return instance.router.addListener(MessageEvent.class, messageListener);
+	}
+
+	public static List<MessageEvent> getLastMessages(String room) {
+		return instance.lastMessages.getOrDefault(room, new CopyOnWriteArrayList<>());
 	}
 
 }
