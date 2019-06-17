@@ -3,25 +3,19 @@ package org.vaadin.artur.simplechat;
 import java.text.DateFormat;
 import java.util.Date;
 
-import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Key;
-import com.vaadin.flow.component.Tag;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.UIDetachedException;
 import com.vaadin.flow.component.WebComponentExporter;
-import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.webcomponent.WebComponent;
-import com.vaadin.flow.component.webcomponent.WebComponentDefinition;
 import com.vaadin.flow.dom.Style;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.shared.Registration;
 
-import org.slf4j.LoggerFactory;
 import org.vaadin.artur.simplechat.Broadcaster.MessageEvent;
 
 @Push
@@ -109,7 +103,7 @@ public class SimpleChatComponent extends VerticalLayout {
         DateFormat df = DateFormat.getTimeInstance(DateFormat.MEDIUM);
 
         // Text and class to add to chat log
-        String labelText = df.format(new Date()) + ": " + event.getMessage();
+        String labelText = df.format(event.getDate()) + ": " + event.getMessage();
         String labelClass = "chat-" + event.getSenderColor();
 
         Div messageLabel = new Div();

@@ -1,5 +1,6 @@
 package org.vaadin.artur.simplechat;
 
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -25,12 +26,14 @@ public class Broadcaster {
 		String message;
 		private String senderColor;
 		private String room;
+		private Date date;
 
-		public MessageEvent(String senderColor, String room, String message) {
+		public MessageEvent(String senderColor, String room, String message, Date date) {
 			super(new Div(), false);
 			this.message = message;
 			this.senderColor = senderColor;
 			this.room = room;
+			this.date = date;
 		}
 
 		public String getMessage() {
@@ -45,11 +48,15 @@ public class Broadcaster {
 			return room;
 		}
 
+		public Date getDate() {
+			return date;
+		}
+
 	}
 
 	public static void sendMessage(String room, String message, SimpleChatComponent source) {
 		LoggerFactory.getLogger(Broadcaster.class).info("Sending message '" + message + "' in chat for " + room);
-		MessageEvent event = new MessageEvent(getColor(source), room, message);
+		MessageEvent event = new MessageEvent(getColor(source), room, message, new Date());
 		instance.router.fireEvent(event);
 		CopyOnWriteArrayList<MessageEvent> last = instance.lastMessages.computeIfAbsent(room,
 				r -> new CopyOnWriteArrayList<>());
