@@ -3,33 +3,27 @@ package org.vaadin.artur.simplechat;
 import java.text.DateFormat;
 import java.util.Date;
 
-import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Key;
-import com.vaadin.flow.component.Tag;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.UIDetachedException;
 import com.vaadin.flow.component.WebComponentExporter;
-import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.webcomponent.WebComponent;
-import com.vaadin.flow.component.webcomponent.WebComponentDefinition;
 import com.vaadin.flow.dom.Style;
-import com.vaadin.flow.router.Route;
 import com.vaadin.flow.shared.Registration;
+import com.vaadin.flow.theme.Theme;
+import com.vaadin.flow.theme.lumo.Lumo;
 
-import org.slf4j.LoggerFactory;
 import org.vaadin.artur.simplechat.Broadcaster.MessageEvent;
 
-@Push
-@Route("")
 public class SimpleChatComponent extends VerticalLayout {
     private static final String DEFAULT_ROOM = "all";
 
     @Push
+    @Theme(Lumo.class)
     public static class Exporter extends WebComponentExporter<SimpleChatComponent> {
 
         public Exporter() {
@@ -40,8 +34,8 @@ public class SimpleChatComponent extends VerticalLayout {
         }
 
         @Override
-        public void configureInstance(WebComponent<SimpleChatComponent> webComponent, SimpleChatComponent component) {
-
+        protected void configureInstance(WebComponent<SimpleChatComponent> webComponent,
+                SimpleChatComponent component) {
         }
 
     }
@@ -116,12 +110,12 @@ public class SimpleChatComponent extends VerticalLayout {
         messageLabel.setText(labelText);
         messageLabel.setClassName(labelClass);
         chatLog.add(messageLabel);
-        getElement().executeJavaScript("$0.scrollTop=12938192;", chatLog);
+        getElement().executeJs("$0.scrollTop=12938192;", chatLog);
         flash(chatLog);
     }
 
     private void flash(Component c) {
-        getElement().executeJavaScript(
+        getElement().executeJs(
                 "$0.style.backgroundColor = '#bbf'; setTimeout(function() {$0.style.backgroundColor = 'white'}, 100)",
                 c.getElement());
     }

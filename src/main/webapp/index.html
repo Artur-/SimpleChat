@@ -1,0 +1,41 @@
+
+<!doctype html>
+<html>
+<head>
+<!--  <script src="build/webcomponentsjs/webcomponents-loader.js"></script>-->
+  <script src="web-component/simple-chat.js"></script>
+  <style>
+    div {
+      width: 100%;
+      display: flex;
+    }
+    simple-chat {
+      margin: 2em;
+      flex: 1;
+      border: 1px dashed black;
+    }
+    .chat-red {
+      color: red;
+    }
+    .chat-green {
+      color: green;
+    }
+    .chat-blue {
+      color: blue;
+    }
+    .chat-magenta {
+      color: magenta;
+    }
+    .chat-black {
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <simple-chat></simple-chat>
+    <simple-chat room="private123"></simple-chat>
+    <github-corner href="https://github.com/Artur-/SimpleChat"></github-corner>
+  </div>
+</body>
+
