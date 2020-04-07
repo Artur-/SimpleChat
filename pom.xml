@@ -14,7 +14,7 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<failOnMissingWebXml>false</failOnMissingWebXml>
-		<vaadin.version>14.0.7</vaadin.version>
+		<vaadin.version>14.1.20</vaadin.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -80,7 +80,7 @@
 		<dependency>
 			<groupId>org.vaadin.artur</groupId>
 			<artifactId>cors</artifactId>
-			<version>1.1.0</version>
+			<version>1.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -117,6 +117,16 @@
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-maven-plugin</artifactId>
 					<version>9.4.15.v20190215</version>
+				</plugin>
+				<plugin>
+					<groupId>org.wildfly.plugins</groupId>
+					<artifactId>wildfly-maven-plugin</artifactId>
+					<version>2.1.0.Beta1</version>
+					<configuration>
+						<javaOpts>
+							<javaOpt>-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n</javaOpt>
+						</javaOpts>
+					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
