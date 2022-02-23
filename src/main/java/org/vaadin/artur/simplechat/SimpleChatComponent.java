@@ -14,8 +14,6 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.webcomponent.WebComponent;
 import com.vaadin.flow.dom.Style;
 import com.vaadin.flow.shared.Registration;
-import com.vaadin.flow.theme.Theme;
-import com.vaadin.flow.theme.lumo.Lumo;
 
 import org.vaadin.artur.simplechat.Broadcaster.MessageEvent;
 
@@ -23,7 +21,7 @@ public class SimpleChatComponent extends VerticalLayout {
     private static final String DEFAULT_ROOM = "all";
 
     @Push
-    @Theme(Lumo.class)
+    // @Theme(Lumo.class)
     public static class Exporter extends WebComponentExporter<SimpleChatComponent> {
 
         public Exporter() {
