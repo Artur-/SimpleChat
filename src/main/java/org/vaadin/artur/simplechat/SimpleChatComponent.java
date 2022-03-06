@@ -1,7 +1,6 @@
 package org.vaadin.artur.simplechat;
 
 import java.text.DateFormat;
-import java.util.Date;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Key;
@@ -18,7 +17,6 @@ import com.vaadin.flow.shared.Registration;
 
 import org.vaadin.artur.simplechat.Broadcaster.MessageEvent;
 
-@Push
 @Route("")
 public class SimpleChatComponent extends VerticalLayout {
     private static final String DEFAULT_ROOM = "all";
@@ -110,12 +108,12 @@ public class SimpleChatComponent extends VerticalLayout {
         messageLabel.setText(labelText);
         messageLabel.setClassName(labelClass);
         chatLog.add(messageLabel);
-        getElement().executeJavaScript("$0.scrollTop=12938192;", chatLog);
+        getElement().executeJs("$0.scrollTop=12938192;", chatLog);
         flash(chatLog);
     }
 
     private void flash(Component c) {
-        getElement().executeJavaScript(
+        getElement().executeJs(
                 "$0.style.backgroundColor = '#bbf'; setTimeout(function() {$0.style.backgroundColor = 'white'}, 100)",
                 c.getElement());
     }
